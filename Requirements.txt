@@ -1,0 +1,9 @@
+# Requirements
+
+Programming Language:
+-python3.7.6
+
+Packets:
+-pip install opencv-python3
+-pip install numpy
+
