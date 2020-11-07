@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import argparse
 import os
+import time
 
 def normalize_ascii(char):
     # Get Ascii Value of Char
@@ -70,6 +71,8 @@ if __name__ == '__main__':
         messagefilepath = args.message.split("@file:")[1]
         with open(messagefilepath, 'r') as f:
             args.message = f.read()
-        
+    
+    start_time = time.time()
     main(args.inputfile, args.message)
+    print("Process Time:", time.time() - start_time, "[secs]")
 

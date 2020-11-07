@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import argparse
+import time
 
 def decode_ascii(ascii_value_array):
     decoded_message = ""
@@ -34,6 +35,8 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--inputfile', required=True,help='Input Filepath')
     args = parser.parse_args()
     
+    start_time = time.time()
     main(args.inputfile)
+    print("Process Time:", time.time() - start_time, "[secs]")
 
 

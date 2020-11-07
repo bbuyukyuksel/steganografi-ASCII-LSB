@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import argparse
 import os
+import time
 
 def set_bit(value:int, grade:int) -> int:
         return value | (1<<grade)
@@ -87,7 +88,9 @@ if __name__ == '__main__':
     parser.add_argument('-l', '--level', type=int, required=False,  default=0, help='LSB Bit Level [Default:0]')
     args = parser.parse_args()
 
+    start_time = time.time()
     main(args.inputfile, args.message, args.level)
+    print("Process Time:", time.time() - start_time, "[secs]")
 
     
     
