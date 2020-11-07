@@ -1,27 +1,33 @@
-1. ASCII veri gizleme yöntemine göre 512 x 512 lena renkli görüntüsüne adınızı ve soyadınız gizleyiniz. (Gizlemeden önceki piksel değerlerini ve gizledikten sonraki piksel değerlerini yazınız.)
+# Usage ASCII
+$ python ascii_encode_msg.py -i"Images/lena.jpeg" -m"Lena ASCII Message Encode Test"
+$ python ascii_decode_msg.py -i"lena-ASCII.png"
 
-2. ASCII veri gizleme yöntemine göre 512 x 512 peppers gri görüntüye okul numaranızı gizleyiiz. (Gizlemeden önceki piksel değerlerini ve gizledikten sonraki piksel değerlerini yazınız.)
+# Usage LSB
+$ python lsb_encode_msg.py -i"Images/lena.jpeg" -m"Lena LSB Message Encode Test" -l0
+$ python lsb_decode_msg.py -i"lena-LSB_LEVEL_0.png"
 
-3. LSB (1 bit) yöntemine göre 512 x 512 lena gri örtü görüntüsüne okul numaranızı saklayınız. (Gizlemeden önceki piksel değerlerini ve gizledikten sonraki piksel değerlerini yazınız.)
+# Usage Image Encoder
+$ python image_encoder.py -f "Resized/lena-gray.jpeg-32x32.png" -t encode > lena-gray-encode.txt
+$ python image_encoder.py -f "Resized/lena-gray.jpeg-32x32.png" -t decode
+  image-recov.png dosyasını dışarı çıkartır.
 
-4. LSB (1 bit) yöntemine göre 512 x 512 baboon renkli örtü görüntüsüne adınızı ve soyadınızı saklayınız. (Gizlemeden önceki piksel değerlerini ve gizledikten sonraki piksel değerlerini yazınız.)
+# Usage Image Resizer
+$ python image_resizer.py -f"Images/lena-gray.jpeg" --size 32
+CONSOLE OUTPUT >> + Suc cess:  Resized/lena-gray.jpeg-32x32.png
 
-Not: İsteyen istediği dille gizleme ve çözme kodlarını yazabilir. (Rapor dosyasına ekleyerek açıklamalıdır.)
+## ASCII Encode Process
+- Resize İşlemi
+$ python image_resizer.py -f"Images/lena-gray.jpeg" --size 32
+CONSOLE OUTPUT >> + Success:  Resized/lena-gray.jpeg-32x32.png
 
-Aryıca, cover image, stego image, cover image histogram, stego image histogram raporda verilmelidir.
+- Görüntüyü metin haline çevir. Image to Text
+$ python image_encoder.py -f "Resized/lena-gray.jpeg-32x32.png" -t encode > lena-gray-text.txt
 
+- Görüntü metnini şifrele
+$ python ascii_encode_msg.py -i "Images/lena.jpeg" -m "@file:lena-gray-text.txt"
 
-Ödev 6
-Aşağıda yapacağınız veri gizleme çalışmasında Lena, baboon, peppes ve airplane örtü görüntülerinin 512 x 512 x 3 boyutlarındaki renkli örtü görüntülerinin içerisine LSB1, LSB2 ve LSB3 kullanarak aynı görüntülerin 32 x 32, 64x64, 128x128 ve 256 x 256 boyutlarındaki gri ölçekli görüntüleri gizleyiniz. Ayrıca veri çıkarma algrtimalarınıda yazarak test ediniz. (gizlenen görüntü ile çıkarılan görüntünün tepe sinyal gürültü oranlarını kontrol ediniz. (Psnr değeri inf çıkmalıdır.))
+- Görüntü metnini çöz
+$ python ascii_decode_msg.py -i "lena-ASCII.png" > decoded-lena-gray-text.txt
 
-Çalışma sırasında, hangi algotimanın hangi görüntüyü gizlemek için harcadığı süreleri, PSNR, SSIM ve kapasite değerlerini tabloya yazınız. 
-
-Eğer ilgili algortimanın kapasitesi yetmiyorsa, tabloda - (eksi ile belirtiniz.)
-
-Ayrıca algortimalar için, karmaşıklık analizi gerçekleştiriniz.
-
-Elde ettiğiniz bulguları, tabloya yazdığınız değerleri yorumlayarak rapora ekleyiniz. 
-
-Aryıca, cover image, stego image, cover image histogram, stego image histogram raporda verilmelidir.
-
-Not: İsteyen istediği dille gizleme ve çözme kodlarını yazabilir. (Rapor dosyasına ekleyerek açıklamalıdır.)
+- Görüntü Metinin Görüntüye Dök
+$ python image_encoder.py -f decoded-lena-gray-text.txt -t decode
