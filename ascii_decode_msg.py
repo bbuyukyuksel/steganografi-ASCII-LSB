@@ -15,16 +15,13 @@ def main(inputfile):
     org_image = cv2.imread(inputfile, cv2.IMREAD_COLOR)
     row, col, ch = org_image.shape
 
-    # Split Channels if have one more than
-    r,g,b = cv2.split(org_image)
-
     # Flatten Image
-    embedded = r.flatten()
+    embedded = org_image.reshape(row * col * ch)
 
     # Decode
     raw_decoded_message = []
-    for i,j in enumerate(embedded.flatten()):
-        decoded = 10 - (j % 10)
+    for i, pixel in enumerate(embedded):
+        decoded = 10 - (pixel % 10)
         decoded = 0 if decoded == 10 else decoded
         raw_decoded_message.append(decoded)
 
@@ -32,12 +29,11 @@ def main(inputfile):
     print(decoded_message.split("<END>")[0])
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='Decode ASCII')
     parser.add_argument('-i', '--inputfile', required=True,help='Input Filepath')
     args = parser.parse_args()
-
+    
     main(args.inputfile)
 
 

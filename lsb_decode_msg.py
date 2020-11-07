@@ -14,12 +14,14 @@ def bits_to_byte(bits:list) -> int:
 def decode(message:list):
     '''
         @param[message]: bit array
+        byte2    byte1    byte0
         00000000 00000011 00000010
         0        3        2
         numerical ascii value (0*100) + (3*10) + (2*1)
     '''
     decoded = ""
     for i in range(0, len(message)-24, 24):
+
         byte2 = bits_to_byte(message[i+0:i+8])
         byte1 = bits_to_byte(message[i+8:i+16])
         byte0 = bits_to_byte(message[i+16:i+24])
@@ -33,15 +35,12 @@ def main(inputfile, grade):
     org_image = cv2.imread(inputfile, cv2.IMREAD_COLOR)
     row, col, ch = org_image.shape
 
-    # Split Channels if have one more than
-    r,g,b = cv2.split(org_image)
-
     # Flatten Image
-    embedded = r.flatten()
+    embedded = org_image.reshape(row*col*ch)
 
     # Decode
     raw_decoded_message = []
-    for i, pixel in enumerate(embedded.flatten()):
+    for i, pixel in enumerate(embedded):
         decoded = decode_bit(pixel, grade)
         raw_decoded_message.append(decoded)
 
